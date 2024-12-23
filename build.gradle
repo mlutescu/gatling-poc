@@ -1,0 +1,55 @@
+plugins {
+    id 'scala'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
+    id("io.gatling.gradle") version "3.13.1.2"
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.scala-lang', name: 'scala-library', version: '2.13.15'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
+
+kotlin {
+    jvmToolchain(11)
+}
+
+gatling {
+    gatlingVersion = '3.13.1'
+    jvmArgs = ['-server', '-Xms512M', '-Xmx512M']
+    systemProperties = ['file.encoding': 'UTF-8']
+}
+
+
+gatling {
+    enterprise {
+        // these seems to not have any effect.
+        apiToken "R_vyfHlvJ5ZBjYtje7nJ1dR1__fnbsWTx5gjez3jUuico9dNelI6366i_DOk0EhZ1"
+        simulationId "71028645-8509-4d85-b1cd-31d064b94bee"
+    }
+}
+
+tasks {
+    gatlingEnterpriseDeploy.group 'Gatling Enterprise'
+    gatlingEnterprisePackage.group 'Gatling Enterprise'
+    gatlingEnterpriseStart.group 'Gatling Enterprise'
+    gatlingEnterpriseUpload.group 'Gatling Enterprise'
+}
+

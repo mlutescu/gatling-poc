@@ -1,0 +1,6 @@
+namespace: gatling-k8s-k8s
+
+enterprise-locations-packages:
+  namespace: gatling-k8s-k8s
+  controlPlane:
+    namespace: gatling-k8s-k8s

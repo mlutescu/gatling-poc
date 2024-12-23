@@ -1,0 +1,7 @@
+services:
+  control-plane-aws:
+    image: gatlingcorp/control-plane
+    volumes:
+      - ./control-plane-aws.conf:/app/conf/control-plane.conf
+      - ./aws_credentials.private:/app/.aws/credentials:ro
+

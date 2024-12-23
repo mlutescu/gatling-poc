@@ -1,0 +1,48 @@
+{
+  "apiVersion": "batch/v1",
+  "kind": "Job",
+  "metadata": {
+    "generateName": "gatling-job-",
+    "namespace": "gatling-k8s-k8s"
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "annotations": {
+          "example-key": "example-value"
+        },
+        "labels": {
+          "example-key": "example-value"
+        },
+        "namespace": "gatling-k8s-k8s"
+      },
+      "spec": {
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "env-key",
+                "value": "env-value"
+              }
+            ],
+            "name": "gatling-container",
+            "resources": {
+              "limits": {
+                "memory": "512Mi",
+                "cpu": "4"
+              },
+              "requests": {
+                "memory": "512Mi",
+                "cpu": "4"
+              }
+            }
+          }
+        ],
+        "securityContext": {
+          "sysctls": []
+        }
+      }
+    },
+    "ttlSecondsAfterFinished": 60
+  }
+}

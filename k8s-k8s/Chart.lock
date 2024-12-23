@@ -1,0 +1,6 @@
+dependencies:
+- name: enterprise-locations-packages
+  repository: https://helm.gatling.io
+  version: 1.0.1
+digest: sha256:1daec83a86165ef3546f41fd5969ad7d8d6c12d8b65fc36a8436a02f408e2a30
+generated: "2024-12-23T14:58:26.669082+02:00"
