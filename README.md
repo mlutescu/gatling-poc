@@ -13,7 +13,7 @@ There are 3 sup-projects, each one demonstrating a configuration.
     | k8s-k8s    | kubernetes                  | kubernetes       | helm           |
 ```
 
-Instructions to install, see status, uninstall, 
+Instructions to install, see status, uninstall, in each subproject's README.md
 
 * Passing secrets to AWS
 
