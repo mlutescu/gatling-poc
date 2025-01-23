@@ -1,0 +1,63 @@
+namespace: gatling-k8s-aws
+
+enterprise-locations-packages:
+  namespace: gatling-k8s-aws
+  controlPlane:
+    namespace: gatling-k8s-aws
+    token: cpt_k8s_aws_cf1g6auffiwse3mqqtwze6jpqbzsgmzdwgzqjjhc7gza3afot5ie7j9gs4c63fp9hqraf5fm1uwktnjqcahdq3tzgb1u1amrgtosgctwgjtdkajt8ftskqbogpugrpj1cpugk3juce4srqbzgyhu1ajtgtou1ajicc4dg3t1ce4dopmfc31drqy
+    # Description of the control plane
+    description: K8s control plane for AWS
+
+    env:
+      - name: AWS_ACCESS_KEY_ID
+        valueFrom:
+          secretKeyRef:
+                name: gatling-aws-secret
+                key: access_key_id
+      - name: AWS_SECRET_ACCESS_KEY
+        valueFrom:
+          secretKeyRef:
+            name: gatling-aws-secret
+            key: secret_access_key
+
+    locations:
+      - id: "prl_k8s_aws"  # Unique identifier for the private location
+        type: aws
+        region: eu-west-1
+        description: "Private Location k8s CP AWS locations"  # Description of the private location
+        engine: "classic" # Execution engine type (classic or javascript)
+        ami:
+          type: custom
+          id: ami-08a40967f9cff51ed
+        security-groups:
+          - "sg-01c550e547f20e0f8"
+        instance-type: c5.9xlarge
+        subnets:
+          - subnet-620d2706
+          - subnet-bbddf2cd
+          - subnet-7254232a
+          - subnet-610d2705
+          - subnet-b8ddf2ce
+          - subnet-7354232b
+        tags:
+          GatlingRole: "injector2"
+      - id: "prl_k8s_aws2"  # Unique identifier for the private location
+        type: aws
+        region: eu-west-1
+        description: "Private Location k8s CP AWS locations"  # Description of the private location
+        engine: "classic" # Execution engine type (classic or javascript)
+        ami:
+          type: custom
+          id: ami-08a40967f9cff51ed
+        security-groups:
+          - "sg-01c550e547f20e0f8"
+        instance-type: c5.9xlarge
+        subnets:
+          - subnet-620d2706
+          - subnet-bbddf2cd
+          - subnet-7254232a
+          - subnet-610d2705
+          - subnet-b8ddf2ce
+          - subnet-7354232b
+        tags:
+          GatlingRole: "injector2"

@@ -1,0 +1,11 @@
+
+services:
+  control-plane-aws:
+    image: gatlingcorp/control-plane
+    ports:
+      - 58080:8080
+    volumes:
+      - ./control-plane-aws.conf:/app/conf/control-plane.conf
+      - ./logback.xml:/app/conf/logback.xml
+      - ./aws_credentials.private:/app/.aws/credentials:ro
+

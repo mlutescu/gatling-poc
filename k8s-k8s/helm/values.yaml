@@ -1,0 +1,93 @@
+namespace: gatling-k8s-k8s
+
+enterprise-locations-packages:
+  namespace: gatling-k8s-k8s
+  controlPlane:
+    token: cpt_k8s_k8s_cf1g6auffiwse3mqqtwze6jpqbzsgmzgosx63biihn94iahes5o4up8bw64qfkpb7qemj3cpu5t3fybqgt1decdrca4dep5gcj1gcp3sceadqpbtcragcpjt8f1ggcufca3sc3b1co4uyqjicc3seqdnce3gepto8yasec3agptuccjtcw3dg3e
+    namespace: gatling-k8s-k8s
+    securityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 1777
+
+
+
+  privatePackage:
+    enabled: true  # Enable or disable the private package feature
+    repository:
+      upload:
+        directory: "/tmp"  # Directory where files will be uploaded temporarily
+      server:
+        port: 8080  # Port on which the repository server listens
+          #bindAddress: "0.0.0.0"  # Bind address for the server
+          #certificate:  # SSL certificate configuration
+          #path: "/path/to/certificate.p12"
+        #password: "password"
+      service:
+        type: NodePort # Service type on which you expose the control plane pod
+        ports:
+          - name: http # Name of the port on which the Service listens
+            protocol: TCP # Protocol of the port
+            port: 80 # Port on which the Service listens
+            targetPort: 8080 # Port on which the repository server listens
+            nodePort: 30080
+        externalIPs:
+          - 192.168.200.200
+      type: "filesystem"  # Choose the repository type: "filesystem", "aws", "azure", or "gcp"
+      configurations:
+        filesystem:
+          directory: "/app/gatling-repository"  # Directory for filesystem storage
+          location:
+            download-base-url: "http://gatling-cp-service:80"  # Base URL for downloading packages
+    persistentVolumeClaim:  # Comment out if you do not intend to use a repository.type = filesystem
+      storageClassName: hostpath  # Storage class name for the PVC
+      volumeMode: Filesystem  # Volume mode (Filesystem or Block)
+      accessModes: [ "ReadWriteOnce" ]  # Access modes for the PVC
+      storage: 5Gi  # Requested storage size
+#      selector:
+#        matchLabels:
+#          zuzu: buburuzu
+
+  privateLocations:
+    - id: "prl_k8s_k8s"  # Unique identifier for the private location
+      description: "Private Location K8s CP K8s injectors"  # Description of the private location
+      type: "kubernetes"  # Type of the private location
+      engine: "classic" # Execution engine type (classic or javascript)
+      image:
+        type: "certified" # Image type (certified or custom)
+        #java: "latest"  # Java version to use (optional if engine = java, noop if engine type = javascript)
+        #image: "gatlingcorp/classic-openjdk:latest"  # Custom image name
+        #systemProperties: {}  # System properties for the JVM
+        #javaHome: "/usr/lib/jvm/zulu"  # Java home path
+        #jvmOptions: ["-Xmx4G", "-Xms512M"]  # JVM options
+        #keepLoadGeneratorAlive: false  # Whether to keep the load generator alive (for debugging)
+        #enterpriseCloud:
+        #url: "http://location-forward-proxy/gatling"  # Set up a forward proxy for your location configuration
+
+      # Working at the template spec level, not the job spec level.
+      # For a detailed structure, refer to this example JSON job definition:
+      # https://docs.gatling.io/reference/install/cloud/private-locations/kubernetes/configuration/#example-json-job-definition
+      job:
+        spec:
+          template:
+            metadata:
+              annotations: { }  # Annotations to add to the pod
+              labels: { } # Labels to add to the pod
+              namespace: "{{ .Values.namespace }}"  # Namespace for the pod
+            spec:
+              containers:
+                - env: [ ]  # Environment variables for the container
+                  name: gatling-container  # Name of the container
+                  resources: # We recommend aligning resource requests with limits to maintain consistent performance
+                    # Resource requests for the container
+                    limits":
+                      memory: "2Gi"
+                      cpu: "2"
+                    # Resource limits for the container
+                    requests:
+                      memory: "2Gi"
+                      cpu: "2"
+              # Security context for the pod or container
+              securityContext:
+                sysctls: [ ]  # List of sysctls to set in the pod
+          ttlSecondsAfterFinished: 60  # Time (in seconds) to retain the job after completion

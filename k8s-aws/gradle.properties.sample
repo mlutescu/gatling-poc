@@ -1,0 +1,5 @@
+kotlin.code.style=official
+
+systemProp.gatling.enterprise.apiToken=<apiToken from https://cloud.gatling.io/o/adobe-identity-poc/api-tokens>
+#systemProp.gatling.enterprise.simulationName=[milu] Poc with AWS Private Locations
+#systemProp.gatling.enterprise.waitForRunEnd=true # this seems to not have effect also
